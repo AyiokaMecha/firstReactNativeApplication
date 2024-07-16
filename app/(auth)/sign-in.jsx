@@ -8,6 +8,7 @@ import CustomButton from "../../components/CustomButton";
 import { Link } from "expo-router";
 import { signIn } from "../../lib/appwrite";
 import { Alert } from "react-native";
+import { useGlobalContext } from "../../context/GlobalProvider"
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -16,6 +17,8 @@ const SignIn = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const {setUser, setIsLoggedIn} = useGlobalContext
 
   const submit = async() => {
     if(!form.email || !form.password) {
@@ -30,6 +33,8 @@ const SignIn = () => {
       )
 
       //set it to global state
+      setUser(result)
+      setIsLoggedIn(true)
 
       router.replace('/home')
     } catch (error) {

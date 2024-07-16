@@ -5,13 +5,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import images from "../constants/images";
 import CustomButton from "../components/CustomButton";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 export default function App() {
+  const { isLoading, isLoggedIn } = useGlobalContext();
+
+  if (!isLoading && isLoggedIn) return <Redirect href="home" />;
+
   return (
     <SafeAreaView className="bg-primary h-full">
-      <ScrollView style={{
-        height: `100%`
-      }}>
+      <ScrollView
+        style={{
+          height: `100%`,
+        }}
+      >
         <View className="w-full justify-center items-center min-h-[85vh] px-4">
           <Image
             source={images.logo}
@@ -43,7 +50,7 @@ export default function App() {
 
           <CustomButton
             title="Continue with Email"
-            handlePress={() => router.push('/sign-in')}
+            handlePress={() => router.push("/sign-in")}
             containerStyles="w-full mt-7"
           />
         </View>
